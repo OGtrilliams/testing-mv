@@ -1,19 +1,13 @@
 ---
 title: TripleO quickstart
-authors: athomas, hewbrocca, jcoufal, jistr, snecklifter, trown
+authors: athomas, hewbrocca, jcoufal, jistr, cbrown2, trown
 ---
 
-* [Virtual Environment Quickstart](#veqs)
-* [Further reading](#reading)
-* [Presentations](#presentations)
+# <a name="qs">TripleO Quickstart</a>
 
-# <a name="qs">TripleO quickstart</a>
+TripleO is an OpenStack Deployment & Management tool. It is developed upstream as the [OpenStack TripleO](http://wiki.openstack.org/wiki/TripleO) project.
 
-TripleO is an OpenStack Deployment & Management tool. It is developed upstream as the [OpenStack TripleO](http://wiki.openstack.org/wiki/TripleO) project, but we have a special love for it in RDO-land.
-
-## <a name="veqs">Virtual environment quickstart</a>
-
-There is an [Ansible-based](https://www.ansible.com/) project called [tripleo-quickstart](https://github.com/openstack/tripleo-quickstart) whose main goal is to quickly stand up TripleO environments using an image-based undercloud approach similar to the [OPNFV Apex project](http://artifacts.opnfv.org/apex/docs/installation-instructions/).
+There is an [Ansible-based](https://www.ansible.com/) project called [tripleo-quickstart](https://github.com/openstack/tripleo-quickstart) whose main goal is to quickly stand up TripleO environments.
 
 You will need a host machine (referred to as `$VIRTHOST`) with at least 16GB of RAM, preferably 32GB, and you must be able to ssh to the `$VIRTHOST` machine as root without a password from the machine running Ansible. The `$VIRTHOST` machine must be running a recent Red Hat-based Linux distribution (such as CentOS 7 or RHEL 7, but only CentOS 7 is currently tested).
 
@@ -47,9 +41,7 @@ Upstream TripleO documentation:
 
 **Note:** Limit your environment-specific content in the menu on the left-hand side of the documentation page.
 
-TripleO (RDO-Manager) HA setup:
-
-* [Great blog post on RDO-Manager HA setup](https://remote-lab.net/rdo-manager-ha-openstack-deployment)
+TripleO YouTube channel:
 
 * [TripleO YouTube Channel](https://www.youtube.com/channel/UCNGDxZGwUELpgaBoLvABsTA/)
 
@@ -58,18 +50,6 @@ TripleO (RDO-Manager) HA setup:
 tripleo-quickstart demo (March 9, 2016):
 
 *   [tripleo-quickstart tag based breakpoint demo](https://www.youtube.com/watch?v=4O8KvC66eeU)
-
-OpenStack Summit, Vancouver (May 22, 2015):
-
-*   [RDO-Manager: Deploying OpenStack Kilo, Vancouver Summit Demo](http://youtu.be/731INn1GDmk)
-
-Post Demo 5 (April 21, 2015):
-
-*   [RDO-Manager Deployment Flow Using Instack Scripts (non-narrated)](http://youtu.be/TyK0df3mCM8)
-
-Demo 3 (March 9, 2015):
-
-*   [RDO-Manager Deployment Flow (non-narrated)](http://youtu.be/zKG-CB8WdTg)
 
 ## Get in touch
 
