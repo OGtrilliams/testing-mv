@@ -2,19 +2,8 @@
 title: LBaaS
 authors: rohara, trilliams
 wiki_title: LBaaS
-<<<<<<< HEAD
-<<<<<<< HEAD
-wiki_revision_count: 7
-=======
-wiki_revision_count: 8
->>>>>>> 9b7d5fe... still trying to squish
-wiki_last_updated: 2017-07-11
-=======
 wiki_revision_count: 8
 wiki_last_updated: 2017-07-11
-
->>>>>>> f7c5a0ba4292edc6a9bce2e1677a74f880f6bf22
----
 
 # Neutron LBaaS v2
 
@@ -60,9 +49,10 @@ This is useful to show the load balancer working later in the example.
 
 First, use the demo tenant:
 
-    # source keystonerc_demo
+    # source keystonerc_dem
 
 Import the custom image that has httpd enabled and a modified rc.local script:
+
 
     # openstack image create rhel-http --public --disk-format qcow2 --container-format bare --file rhel.qcow2
 
@@ -78,6 +68,7 @@ Check that the image was imported:
 
 Next, create a keypair to use when we boot the image:
 
+
     # openstack keypair create --public-key ~/.ssh/rdo-key.pub  rdo-key.pem
     +-------------+-------------------------------------------------+
     | Field       | Value                                           |
@@ -86,6 +77,7 @@ Next, create a keypair to use when we boot the image:
     | name        | rdo_key                                         |
     | user_id     | b32cd586eb3b4bfe925913a6b51da7f1                |
     +-------------+-------------------------------------------------+
+
 
 Create the virtual machines by booting the custom image. Each of the resulting instances will be running the httpd service, which we can then load balance. This example will use three httpd servers.
 
@@ -171,6 +163,8 @@ The floating IP addresses that were associated with each virtual machine are no 
 
 	# openstack floating ip list
 
+
+
 	+--------------------------------------+---------------------+------------------+--------------------------------------+
 	| ID                                   | Floating IP Address | Fixed IP Address | Port                                 |
 	+--------------------------------------+---------------------+------------------+--------------------------------------+
@@ -178,6 +172,7 @@ The floating IP addresses that were associated with each virtual machine are no 
 	| eb6003f5-d50f-4cf3-9115-bdd0343f8571 | 172.24.4.228        | 10.0.0.12        | 820c4722-4459-46d8-a799-2360c56d21bf |
 	| f9a20cdb-d31d-4f81-9a91-164a34d94443 | 172.24.4.229        | 10.0.0.6         | e155ddb5-fbb8-408a-93c5-6dc02142a457 |
 	+--------------------------------------+---------------------+------------------+--------------------------------------+
+
 
     # openstack server remove floating ip rhel-01 172.24.4.227
     # openstack server remove floating ip rhel-02 172.24.4.228
@@ -211,11 +206,9 @@ First, get the subnet ID from neutron.
 Once we have identified the name of our private subnet, we can then create a
 new load balancer using Neutron CLI.
 
-    # neutron lbaas-loadbalancer-create --name http-lb private_subnet
-<<<<<<< HEAD
 
-=======
->>>>>>> f7c5a0ba4292edc6a9bce2e1677a74f880f6bf22
+
+    # neutron lbaas-loadbalancer-create --name http-lb private_subnet
     +---------------------+--------------------------------------+
     | Field               | Value                                |
     +---------------------+--------------------------------------+
@@ -233,20 +226,11 @@ new load balancer using Neutron CLI.
     | vip_port_id         | 49faec3d-ce16-4bba-bd03-5d4a06fc2aec |
     | vip_subnet_id       | 4ec385da-a94d-42a5-8375-4fa6425f2e97 |
     +---------------------+--------------------------------------+
-<<<<<<< HEAD
-
-Once the load balancer is online, you will then need to create a listener. For this example, I am going to create an HTTP listener on port 80. The listener is automatically associated with the http-lb load balancer with the `--loadbalancer` flag.
-
-    # neutron lbaas-listener-create --name http-listener --loadbalancer http-lb --protocol HTTP --protocol-port 80
-
-=======
 
 
 Once the load balancer is online, you will then need to create a listener. For this example, I am going to create an HTTP listener on port 80. The listener is automatically associated with the http-lb load balancer with the `--loadbalancer` flag.
 
     # neutron lbaas-listener-create --name http-listener --loadbalancer http-lb --protocol HTTP --protocol-port 80
-
->>>>>>> f7c5a0ba4292edc6a9bce2e1677a74f880f6bf22
     Created a new listener:
     +---------------------------+------------------------------------------------+
     | Field                     | Value                                          |
@@ -265,22 +249,9 @@ Once the load balancer is online, you will then need to create a listener. For t
     | tenant_id                 | c33d136a60e04e1fabf733acffa43058               |
     +---------------------------+------------------------------------------------+
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-Next, we will create an LBaaS pool. A pool is a group of virtual machines,
-known as members, that will provide the actual service. In this example there
-will be three members, each capable of providing the httpd service. In
-addition, the pool also defines the protocol, the load balancing algorithm,
-and the subnet with which to associate the load balancer. Note that the subnet
-must be the same as the subnet of the members that belong to the pool.
-=======
-Next, we will create an LBaaS pool. A pool is a group of virtual machines, known as members, that will provide the actual service. In this example there will be three members, each capable of providing the httpd service. In addition, the pool also defines the protocol, the load balancing algorithm, and the subnet with which to associate the load balancer. Note that the subnet must be the same as the subnet of the members that belong to the pool.
->>>>>>> 9b7d5fe... still trying to squish
-=======
 
 Next, we will create an LBaaS pool. A pool is a group of virtual machines, known as members, that will provide the actual service. In this example there will be three members, each capable of providing the httpd service. In addition, the pool also defines the protocol, the load balancing algorithm, and the subnet with which to associate the load balancer. Note that the subnet must be the same as the subnet of the members that belong to the pool.
 
->>>>>>> f7c5a0ba4292edc6a9bce2e1677a74f880f6bf22
 
     # neutron lbaas-pool-create --name http-pool --lb-algorithm ROUND_ROBIN --listener http-listener --protocol HTTP
     Created a new pool:
@@ -301,21 +272,9 @@ Next, we will create an LBaaS pool. A pool is a group of virtual machines, known
     | tenant_id           | c33d136a60e04e1fabf733acffa43058               |
     +---------------------+------------------------------------------------+
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-The example above creates a pool named "http-pool", which uses the HTTP
-protocol and a round-robin load balancing algorithm. This pool is associated
-with the http-pool load balancer created in a previous step. To get more
-information on existing LBaaS pools, we can run the commands `neutron lbaas-pool-list`
-and `neutron lbaas-pool-show`. The `lbaas-pool-list` command will list out all active load balancers, while `lbaas-pool-show` will display details on a specific load balancer.
-=======
-The example above creates a pool named "http-pool", which uses the HTTP protocol and a round-robin load balancing algorithm. This pool is associated with the http-pool load balancer created in a previous step. To get more information on existing LBaaS pools, we can run the commands `neutron lbaas-pool-list` and `neutron lbaas-pool-show`. The `lbaas-pool-list` command will list out all active load balancers, while `lbaas-pool-show` will display details on a specific load balancer.
->>>>>>> 9b7d5fe... still trying to squish
-=======
+
 
 The example above creates a pool named "http-pool", which uses the HTTP protocol and a round-robin load balancing algorithm. This pool is associated with the http-pool load balancer created in a previous step. To get more information on existing LBaaS pools, we can run the commands `neutron lbaas-pool-list` and `neutron lbaas-pool-show`. The `lbaas-pool-list` command will list out all active load balancers, while `lbaas-pool-show` will display details on a specific load balancer.
-
->>>>>>> f7c5a0ba4292edc6a9bce2e1677a74f880f6bf22
 
     # neutron lbaas-pool-list
     +--------------------------------------+------------+----------+----------------+
@@ -347,15 +306,10 @@ The next step is to create members and add them to the pool. A member is nothing
     # neutron lbaas-member-create --subnet private_subnet --address 10.0.0.3 --protocol-port 80 http-pool
     # neutron lbaas-member-create --subnet private_subnet --address 10.0.0.4 --protocol-port 80 http-pool
     # neutron lbaas-member-create --subnet private_subnet --address 10.0.0.5 --protocol-port 80 http-pool
-<<<<<<< HEAD
+
 
 The `lbaas-member-list` and `lbaas-member-show` commands may be used to get information about existing members.
 
-=======
-
-The `lbaas-member-list` and `lbaas-member-show` commands may be used to get information about existing members.
-
->>>>>>> f7c5a0ba4292edc6a9bce2e1677a74f880f6bf22
     # neutron lbaas-member-list --sort-key address --sort-dir asc http-pool
     +--------------------------------------+------+--------------+---------------+--------+--------------------------------------+----------------+
     | id                                   | name | address      | protocol_port |weight  | subnet_id                            | admin_state_up |
@@ -366,6 +320,8 @@ The `lbaas-member-list` and `lbaas-member-show` commands may be used to get info
     +--------------------------------------+------+--------------+---------------+--------+--------------------------------------+----------------+
 
     # neutron lbaas-member-show a35f3365-2445-4a01-b6ba-995bd1313817 http-pool
+
+
     +----------------+--------------------------------------+
     | Field          | Value                                |
     +----------------+--------------------------------------+
@@ -379,58 +335,6 @@ The `lbaas-member-list` and `lbaas-member-show` commands may be used to get info
     | weight         | 1                                    |
     +----------------+--------------------------------------+
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-Note that the member shown above has a pool ID that corresponds to the
-`http-pool`. The command `neutron lbaas-pool-show` may also be used to see the members of a given pool.
-=======
-Note that the member shown above has a pool ID that corresponds to the `http-pool`. The command `neutron lbaas-pool-show` may also be used to see the members of a given pool.
->>>>>>> 9b7d5fe... still trying to squish
-
-    # neutron lbaas-pool-show http-pool
-    +---------------------+------------------------------------------------+
-    | Field               | Value                                          |
-    +---------------------+------------------------------------------------+
-    | admin_state_up      | True                                           |
-    | description         |                                                |
-    | healthmonitor_id    |                                                |
-    | id                  | 11b75bf9-3349-43eb-be26-ecdf284d62a0           |
-    | lb_algorithm        | ROUND_ROBIN                                    |
-    | listeners           | {"id": "54c30e75-f62b-4b40-9bc1-a2032f1ea042"} |
-    | loadbalancers       | {"id": "1fc0b51e-a45b-4ae3-9618-453f28db6bc8"} |
-    | members             | 419dc5ba-1421-4dad-a1fb-565b6dd9a71d           |
-    |                     | 8aab1324-6500-427b-92a6-6415beae2f8f           |
-    |                     | a35f3365-2445-4a01-b6ba-995bd1313817           |
-    | name                | http-pool                                      |
-    | protocol            | HTTP                                           |
-    | session_persistence |                                                |
-    | tenant_id           | c33d136a60e04e1fabf733acffa43058               |
-    +---------------------+------------------------------------------------+
-
-The next step is to create a health monitor and associate it with the pool. The health monitor is responsible for periodically checking the health of each member of the pool.
-
-    # neutron lbaas-healthmonitor-create --delay 5 --type HTTP --max-retries 3 --timeout 2 --pool http-pool
-    Created a new healthmonitor:
-    +------------------+------------------------------------------------+
-    | Field            | Value                                          |
-    +------------------+------------------------------------------------+
-    | admin_state_up   | True                                           |
-    | delay            | 5                                              |
-    | expected_codes   | 200                                            |
-    | http_method      | GET                                            |
-    | id               | ec8ff90c-7c5e-4883-a1a4-10cc22072bb0           |
-    | max_retries      | 3                                              |
-    | max_retries_down | 3                                              |
-    | name             |                                                |
-    | pools            | {"id": "11b75bf9-3349-43eb-be26-ecdf284d62a0"} |
-    | tenant_id        | c33d136a60e04e1fabf733acffa43058               |
-    | timeout          | 2                                              |
-    | type             | HTTP                                           |
-    | url_path         | /                                              |
-    +------------------+------------------------------------------------+
-
-=======
-
 Note that the member shown above has a pool ID that corresponds to the `http-pool`. The command `neutron lbaas-pool-show` may also be used to see the members of a given pool.
 
     # neutron lbaas-pool-show http-pool
@@ -475,46 +379,10 @@ The next step is to create a health monitor and associate it with the pool. The 
     | url_path         | /                                              |
     +------------------+------------------------------------------------+
 
->>>>>>> f7c5a0ba4292edc6a9bce2e1677a74f880f6bf22
+
+
 In this example, the health monitor will perform an HTTP GET of the "/" path. This health check expects an HTTP status of 200 in the response, and the connection must be established within 2 seconds. This check will be retried a maximum of 3 times before a member is determined to be failed.
 
-
-The commands `lb-healthmonitor-list` and `lb-healthmonitor-show` may be used to get information about existing health monitors.
-    
-    # neutron lbaas-healthmonitor-list
-    +--------------------------------------+------+------+----------------+
-    | id                                   | name | type | admin_state_up |
-    +--------------------------------------+------+------+----------------+
-    | ec8ff90c-7c5e-4883-a1a4-10cc22072bb0 |      | HTTP | True           |
-    +--------------------------------------+------+------+----------------+
-
-
-    # neutron lbaas-healthmonitor-show ec8ff90c-7c5e-4883-a1a4-10cc22072bb0
-    +------------------+------------------------------------------------+
-    | Field            | Value                                          |
-    +------------------+------------------------------------------------+
-    | admin_state_up   | True                                           |
-    | delay            | 5                                              |
-    | expected_codes   | 200                                            |
-    | http_method      | GET                                            |
-    | id               | ec8ff90c-7c5e-4883-a1a4-10cc22072bb0           |
-    | max_retries      | 3                                              |
-    | max_retries_down | 3                                              |
-    | name             |                                                |
-    | pools            | {"id": "11b75bf9-3349-43eb-be26-ecdf284d62a0"} |
-    | tenant_id        | c33d136a60e04e1fabf733acffa43058               |
-    | timeout          | 2                                              |
-    | type             | HTTP                                           |
-    | url_path         | /                                              |
-    +------------------+------------------------------------------------+
-
-At this point the load-balancer has been successfully created and should be functional. Traffic sent to address 10.0.0.6 on port 80 will be load-balanced across all active members of our pool. To make the load balancer externally accessible, create a floating IP address and associate it with the virtual IP address. Adding a floating IP address will also resolve haproxy error messages, such as the following:
-
-	Broadcast message from systemd-journald@trilliams-lbaas (Tue 2017-07-11 20:21:11 UTC):
-
-	haproxy[28842]: backend 58771be8-6f79-4e6e-a736-2e5c8329827b has no server available!
-
-First, we will need to create a new floating IP address:
 
     # openstack floating ip create public
     Created a new floatingip:
@@ -530,20 +398,10 @@ First, we will need to create a new floating IP address:
     | tenant_id           | 47e1f8f3b8dc4ab2a5f931cdd502afae     |
     +---------------------+--------------------------------------+
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-Once the floating IP has been created, we will need to assign it to the load
-balancer port. We can locate the neutron port for our load balancer with the
-following command.
-=======
-Once the floating IP has been created, we will need to assign it to the load balancer port. We can locate the neutron port for our load balancer with the following command.
->>>>>>> 9b7d5fe... still trying to squish
-=======
-
-
 
 Once the floating IP has been created, we will need to assign it to the load balancer port. We can locate the neutron port for our load balancer with the following command.
->>>>>>> f7c5a0ba4292edc6a9bce2e1677a74f880f6bf22
+
+
 
     # openstack port list
     +--------------------------------------+---------------------------------------------------+-------------------+--------------------------------------------------------+
@@ -552,25 +410,16 @@ Once the floating IP has been created, we will need to assign it to the load bal
     | b9b86e52-25c3-4277-afc6-9214197827d3 |loadbalancer-ed3efc09-7284-4edb-9a70-f730ef9595c1 | fa:16:3e:9f:4c:cb  |ip_address='10.0.0.6', subnet_id='4ec385da-a94d-        ||                                      |                                                   |                   | 42a5-8375-4fa6425f2e97'                                |
     +--------------------------------------+---------------------------------------------------+-------------------+--------------------------------------------------------+
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-Once the port UUID has been located, assign the floating IP to the load
-balancer with the command `neutron floatingip-associate`, specifying both the
-UUID for the floating IP address and the UUID for the load balancer port. 
-=======
-Once the port UUID has been located, assign the floating IP to the load balancer with the command `neutron floatingip-associate`, specifying both the UUID for the floating IP address and the UUID for the load balancer port. 
->>>>>>> 9b7d5fe... still trying to squish
-=======
+
 
 Once the port UUID has been located, assign the floating IP to the load balancer with the command `neutron floatingip-associate`, specifying both the UUID for the floating IP address and the UUID for the load balancer port. 
->>>>>>> f7c5a0ba4292edc6a9bce2e1677a74f880f6bf22
 
     # neutron floatingip-associate 6becaba6-b3fe-4e54-8bd6-f5d8364a363f b9b86e52-25c3-4277-afc6-9214197827d3
     Associated floating IP 6becaba6-b3fe-4e54-8bd6-f5d8364a363f
 
 Use the `floatingip-list` command to verify that the floating IP address (172.24.4.230) is associated with the virtual IP address (10.0.0.6).
 
-    # neutron floatingip-list --sort-key floating_ip_address --sort-dir asc
+    # openstack  floating ip list
     +--------------------------------------+------------------+---------------------+--------------------------------------+
     | id                                   | fixed_ip_address | floating_ip_address | port_id                              |
     +--------------------------------------+------------------+---------------------+--------------------------------------+
@@ -585,6 +434,7 @@ Use the `floatingip-list` command to verify that the floating IP address (172.24
 Now that the load balancer is running and externally accessible, test that traffic is properly load-balanced and the health checker works correctly. First, check what members are active in the LB pool, `http-pool`.
 
     # neutron lbaas-member-list http-pool --sort-key address --sort-dir asc
+
     +--------------------------------------+----------+---------------+----------------+--------+
     | id                                   | address  | protocol_port | admin_state_up | status |
     +--------------------------------------+----------+---------------+----------------+--------+
@@ -606,6 +456,7 @@ Since this example has a single pool and all members are marked 'active', succes
 Next, mark one of the member's 'admin_state_up' flag to False. A member with 'admin_state_up' set to False should not be considered for load-balancing.
 
     # neutron lbaas-member-update 5750769c-3131-41bd-b0f1-be6c41aa15c9 http-pool --admin_state_up False
+
     Updated member: 5750769c-3131-41bd-b0f1-be6c41aa15c9
 
     # neutron lbaas-member-list --sort-key address --sort-dir asc
@@ -653,10 +504,14 @@ As expected, 'rhel-01' is again eligible to receive HTTP requests via the load b
 
 A member can also be disabled by setting its weight to 0.
 
+
+
+
     # neutron lbaas-member-update 5750769c-3131-41bd-b0f1-be6c41aa15c9 http-pool --weight 0
+
     Updated member: 5750769c-3131-41bd-b0f1-be6c41aa15c9
 
-    # neutron lb-member-show 5750769c-3131-41bd-b0f1-be6c41aa15c9
+    # neutron lbaas-member-show 5750769c-3131-41bd-b0f1-be6c41aa15c9
     +--------------------+--------------------------------------+
     | Field              | Value                                |
     +--------------------+--------------------------------------+
@@ -680,6 +535,7 @@ A member can also be disabled by setting its weight to 0.
     rhel-03
 
 Notice that the member is still marked active and the admin_state_up flag is True, but the member's weight has been changed to 0. Regardless of the algorithm being used, a member with a weight of 0 will not receive any new connections from the load balancer. Set the member's weight back to 1 for it to once again be considered for load balancing.
+
 
     # neutron lbaas-member-update 5750769c-3131-41bd-b0f1-be6c41aa15c9 http-pool --weight 1
     Updated member: 5750769c-3131-41bd-b0f1-be6c41aa15c9
@@ -786,13 +642,5 @@ After saving and closing the file, restart Apache and memcached.
 
 	# systemctl restart httpd memcached
 	
-<<<<<<< HEAD
-<<<<<<< HEAD
-Now you should be able to view, create, and manage Neutron LBaaS under Projects --> Networking -- Load Balancers in the Horizon web dashboard.
-=======
-Now you should be able to view, create, and manage Neutron LBaaS under Projects --> Networking -- Load Balancers in the Horizon web dashboard.
->>>>>>> 9b7d5fe... still trying to squish
-=======
-Now you should be able to view, create, and manage Neutron LBaaS under Projects --> Networking --> Load Balancers in the Horizon web dashboard.
 
->>>>>>> f7c5a0ba4292edc6a9bce2e1677a74f880f6bf22
+Now you should be able to view, create, and manage Neutron LBaaS under Projects --> Networking --> Load Balancers in the Horizon web dashboard.
