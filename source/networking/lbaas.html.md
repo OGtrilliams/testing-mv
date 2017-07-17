@@ -3,7 +3,7 @@ title: LBaaS
 authors: rohara, trilliams
 wiki_title: LBaaS
 wiki_revision_count: 8
-wiki_last_updated: 2017-07-11
+wiki_last_updated: 2017-07-17
 ---
 
 # Neutron LBaaS v2
@@ -655,5 +655,4 @@ After saving and closing the file, restart Apache and memcached.
 
 	# systemctl restart httpd memcached
 	
-
 Now you should be able to view, create, and manage Neutron LBaaS under Projects --> Networking --> Load Balancers in the Horizon web dashboard.
